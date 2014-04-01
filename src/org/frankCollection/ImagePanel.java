@@ -1,6 +1,7 @@
 package org.frankCollection;
 
 import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -22,13 +23,13 @@ public class ImagePanel extends JPanel {
 	public ImagePanel(String filename){
 		image = getBufferedImageFile(filename);
 		
-		setPreferredSize(getPrefferedSize());
+		setPreferredSize(getDisplaySize());
 	}
 	
 	public ImagePanel(BufferedImage image){
 		this.image = image;
 		
-		setPreferredSize(getPrefferedSize());
+		setPreferredSize(getDisplaySize());
 	}
 	
 	
@@ -37,13 +38,13 @@ public class ImagePanel extends JPanel {
 	public void setBufferedImageFile(String filename){
 		image = getBufferedImageFile(filename);
 		
-		setPreferredSize(getPrefferedSize());
+		setPreferredSize(getDisplaySize());
 	}
 	
 	public void setBufferedImage(BufferedImage image){
 		this.image = image;
 		
-		setPreferredSize(getPrefferedSize());
+		setPreferredSize(getDisplaySize());
 	}
 	
 	public BufferedImage getBufferedImage(){
@@ -65,7 +66,7 @@ public class ImagePanel extends JPanel {
 	public void paintComponent(Graphics g){
 		
 		super.paintComponent(g);
-		Dimension prefferedSize = getPrefferedSize();
+		Dimension prefferedSize = getDisplaySize();
 		
 		if (getBufferedImage() == null) {
 			g.setColor(Color.BLACK);
@@ -77,7 +78,7 @@ public class ImagePanel extends JPanel {
 		}
 	}
 	
-	private Dimension getPrefferedSize(){
+	private Dimension getDisplaySize(){
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenWidth = (int) screenSize.getWidth();
