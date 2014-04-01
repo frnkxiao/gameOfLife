@@ -31,12 +31,19 @@ public class GameOfLife extends JPanel
 		
 		super(new BorderLayout());
 		
-		imagePanel = new ImagePanel();
+		if (new File("default.gif").exists()){
+			imagePanel = new ImagePanel("default.gif");
+		} else {
+			imagePanel = new ImagePanel();
+		}
+		
 		imagePanel.repaint();
 		
-		logic.setCurrentGenerationImg(imagePanel.getBufferedImage());
+		if (imagePanel.getBufferedImage() != null) {
+			logic.setCurrentGenerationImg(imagePanel.getBufferedImage());
 		
-		imagePanel.setBufferedImage(logic.getCurrentGenerationImg());
+			imagePanel.setBufferedImage(logic.getCurrentGenerationImg());
+		}
 		
 		// create a file chooser
 		fc = new JFileChooser();
@@ -88,6 +95,10 @@ public class GameOfLife extends JPanel
 
         //Handle save button action.
         } else if (e.getSource() == saveButton) {
+        	if (imagePanel.getBufferedImage() == null) {
+			return;
+		}
+		
             int returnVal = fc.showSaveDialog(GameOfLife.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
@@ -100,6 +111,9 @@ public class GameOfLife extends JPanel
 
         } else if (e.getSource() == playButton) {
         	
+        	if (imagePanel.getBufferedImage() == null) {
+			return;
+		}
         	
         	Thread calNext = new Thread(){
         		public void run(){
@@ -132,6 +146,11 @@ public class GameOfLife extends JPanel
         	calNext.start();        	
         	
         } else if (e.getSource() == pauseButton) {
+        	
+        	if (imagePanel.getBufferedImage() == null) {
+			return;
+		}
+		
         	logic.setMoreGeneration(false);
         	
         }
