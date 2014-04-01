@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel {
 	
 	// constructors
 	public ImagePanel(){
-		this("default.gif");
+		setPreferredSize(getDisplaySize());
 	}
 	
 	public ImagePanel(String filename){
@@ -28,7 +28,7 @@ public class ImagePanel extends JPanel {
 	public ImagePanel(BufferedImage image){
 		this.image = image;
 		
-		//setPreferredSize(getPrefferedSize());
+		setPreferredSize(getPrefferedSize());
 	}
 	
 	
@@ -37,13 +37,13 @@ public class ImagePanel extends JPanel {
 	public void setBufferedImageFile(String filename){
 		image = getBufferedImageFile(filename);
 		
-		//setPreferredSize(getPrefferedSize());
+		setPreferredSize(getPrefferedSize());
 	}
 	
 	public void setBufferedImage(BufferedImage image){
 		this.image = image;
 		
-		//setPreferredSize(getPrefferedSize());
+		setPreferredSize(getPrefferedSize());
 	}
 	
 	public BufferedImage getBufferedImage(){
@@ -66,9 +66,15 @@ public class ImagePanel extends JPanel {
 		
 		super.paintComponent(g);
 		Dimension prefferedSize = getPrefferedSize();
-		setPreferredSize(prefferedSize);
 		
-		g.drawImage(image, 0, 0, (int) prefferedSize.getWidth(), (int) prefferedSize.getHeight(), null);
+		if (getBufferedImage() == null) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0,0,(int) prefferedSize.getWidth(), (int) prefferedSize.getHeight());
+			g.setColor(Color.WHITE);
+			g.drawString("Please select a image to continue ...", 60, 90);
+		} else {
+			g.drawImage(image, 0, 0, (int) prefferedSize.getWidth(), (int) prefferedSize.getHeight(), null);
+		}
 	}
 	
 	private Dimension getPrefferedSize(){
@@ -77,8 +83,15 @@ public class ImagePanel extends JPanel {
 		int screenWidth = (int) screenSize.getWidth();
 		int screenHeight = (int) screenSize.getHeight();
 		
-		int imageWidth = image.getWidth();
-		int imageHeight = image.getHeight();
+		int imageWidth;
+		int imageHeight;
+		if (getBufferedImage() == null) {
+			imageWidth = 500;
+			imageHeight = 200;			
+		} else {
+			imageWidth = getBufferedImage().getWidth();
+			imageHeight = getBufferedImage().getHeight();
+		}
 		
 		int minWidth = (screenWidth > imageWidth)? imageWidth : screenWidth;
 		int minHeight = (screenHeight > imageHeight)? imageHeight : screenHeight;
